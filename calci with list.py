@@ -1,20 +1,25 @@
 from tkinter import *
 
-
+window = Tk()
 class Calci():
     def __init__(self):
 
         self.result = []
         self.resultprice = []
         self.x = 0
+        self.products = []
+        self.prices = []
+        self.row = 1
 
-        window = Tk()
+
         window.title = "Calculator"
 
         self.v = IntVar()
 
         Radiobutton(window, text="List", variable=self.v, value=1).grid(row=0,column = 1)
         Radiobutton(window, text="Calci", variable=self.v, value=2).grid(row=0, column =3)
+
+
 
         label1 = Label(window, text="Enter Product name")
         label1.grid(row=1, sticky=W)
@@ -25,12 +30,11 @@ class Calci():
         self.entry = Entry(window, textvariable=self.string, font="Helvetica 17 bold")
         self.entry.grid(row=2,column=1, columnspan=5)
 
-        output_heading = Label(window, text="Product" + "        " + "Price")
-        output_heading.grid(row=0,column=8, sticky=N)
 
-        self.txt = StringVar()
-        self.output_screen = Label(window, textvariable=self.txt)
-        self.output_screen.grid(row=2, column=8, columnspan=10, rowspan=6, sticky=N)
+
+        #self.txt = StringVar()
+        #self.output_screen = Label(window, textvariable=self.txt)
+        #self.output_screen.grid(row=2, column=8, columnspan=10, rowspan=6, sticky=N)
 
         self.string_name = StringVar()
         self.entry_name = Entry(window, textvariable=self.string_name, font="Helvetica 17 bold")
@@ -90,7 +94,7 @@ class Calci():
         but_1.grid(row=5,column=0, padx=1, pady=1,sticky = E)
 
         but_2 = Button(window, height=2, width=2, padx=10, pady=10, text="2",
-                       command=lambda: self.addchar("6"))
+                       command=lambda: self.addchar("2"))
         but_2.grid(row=5,column=1, padx=1, pady=1)
 
         but_3 = Button(window, height=2, width=2, padx=10, pady=10, text="3",
@@ -144,14 +148,29 @@ class Calci():
 
 
     def list(self):
-
         if self.v.get() == 1:
-            try:
-                self.result.append(self.string_name.get() + "        " + self.string.get())
-                self.resultprice.append(self.string.get())
 
+
+            try:
+                #self.result.append(self.string_name.get() + "        " + self.string.get())
+                #self.resultprice.append(self.string.get())
+
+                #self.string.set('')
+                #self.string_name.set('')
+                #self.products.append(self.string_name.get())
+
+                output_heading = Label(window, text="Product" + "        " + "Price")
+                output_heading.grid(row=0, column=7, sticky=N)
+                self.prices.append(self.string.get())
+
+                productlabel = Label(window, text = self.string_name.get())
+                productlabel.grid(row = self.row, column = 7)
+                pricelabel = Label(window, text = self.string.get())
+                pricelabel.grid(row =self.row, column = 8)
+                self.row +=1
                 self.string.set('')
                 self.string_name.set('')
+
 
 
             except:
@@ -159,8 +178,8 @@ class Calci():
                 result = "Error"
 
                 # self.string.set(result)
-            self.txt.set(self.result)
-        elif self.v.get()==2:
+            #self.txt.set(self.result)
+        elif self.v.get() == 2:
             self.entry.focus()
             self.string_name = ''
             result = ''
@@ -173,20 +192,22 @@ class Calci():
             self.string.set(result)
 
     def equals(self):
-        if self.v.get()==1:
+        if self.v.get() == 1:
             finaloutputprice = 0
             try:
-                for num in self.resultprice:
+                for num in self.prices:
                     finaloutputprice = float(num) + finaloutputprice
+                #finaloutputprice = eval(self.prices)
 
 
             except:
                 self.error = True
                 result = "Error"
 
-            self.string_name.set("Total Price =")
+            self.string_name = ("Total Price =")
             self.string.set(finaloutputprice)
         elif self.v.get()==2:
+
             self.entry.focus()
             self.string_name = ''
             result = ''
@@ -199,4 +220,7 @@ class Calci():
             self.string.set(result)
 
 
+
+
 Calci()
+
